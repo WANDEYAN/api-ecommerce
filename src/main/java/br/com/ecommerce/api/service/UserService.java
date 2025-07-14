@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import br.com.ecommerce.api.dto.UserRegisterDTO;
 import br.com.ecommerce.api.model.User;
 import br.com.ecommerce.api.repository.UserRepository;
+import br.com.ecommerce.api.service.exceptions.EmailAlreadyExistsException;
 
 @Service
 public class UserService {
@@ -20,7 +21,7 @@ public class UserService {
 
     public User registerUser(UserRegisterDTO registerDTO){
         userRepository.findByEmail(registerDTO.getEmail()).ifPresent(user -> {
-            throw new RuntimeException("Email already registered");
+            throw new EmailAlreadyExistsException("Email already registered");
         });
 
         User newUser = new User();
