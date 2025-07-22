@@ -1,8 +1,8 @@
 package br.com.ecommerce.api.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.ecommerce.api.dto.CategoryRequestDTO;
@@ -24,8 +24,8 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public List<Category> getAllCategories(){
-        return categoryRepository.findAll();
+    public Page<Category> getAllCategories(Pageable pageable){
+        return categoryRepository.findAll(pageable);
     }
 
     public Category getCategoryById(Long id){
