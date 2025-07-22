@@ -5,6 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
+import br.com.ecommerce.api.service.exceptions.CategoryAlreadyExistsException;
+import br.com.ecommerce.api.service.exceptions.CategoryNotFoundException;
 import br.com.ecommerce.api.service.exceptions.EmailAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.ProductAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.ProductNotFoundException;
@@ -25,5 +29,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProductAlreadyExistsException.class)
     public ResponseEntity<String> handleProductAlreadyException(ProductAlreadyExistsException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<String> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    public ResponseEntity<String> handleCategoryNotFoundException(CategoryNotFoundException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.ecommerce.api.dto;
 
+import br.com.ecommerce.api.model.Category;
 import br.com.ecommerce.api.model.Product;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ public class ProductResponseDTO {
     private String description;
     private String image;
     private double price;
-    private String category;
+    private Category category;
     private int quantity;
     private String inventoryStatus;
     private int rating;
