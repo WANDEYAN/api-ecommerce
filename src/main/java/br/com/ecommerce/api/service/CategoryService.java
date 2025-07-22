@@ -18,9 +18,7 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category createCategory(CategoryRequestDTO data) {
-        categoryRepository.findByName(data.getName()).ifPresent(category -> {
-            throw new CategoryAlreadyExistsException("Category name already registered");
-        });
+        checkAlreadyExistsByName(data.getName());
         Category category = new Category();
         category.setName(data.getName());
         return categoryRepository.save(category);
@@ -36,6 +34,7 @@ public class CategoryService {
     }
 
     public Category updateCategory(Long id, CategoryRequestDTO data){
+        checkAlreadyExistsByName(data.getName());
         Category oldCategory = getCategoryById(id);
         Category categoryUpdate = new Category();
         categoryUpdate.setId(oldCategory.getId());
@@ -47,4 +46,9 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    private void checkAlreadyExistsByName(String name){
+        categoryRepository.findByName(name).ifPresent(category -> {
+            throw new CategoryAlreadyExistsException("Category name already registered");
+        });
+    }
 }
