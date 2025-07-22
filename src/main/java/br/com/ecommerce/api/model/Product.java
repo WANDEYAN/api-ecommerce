@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,19 +36,23 @@ public class Product {
     private String description;
     private String image;
     private double price;
-    private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+    
     private int quantity;
 
     @Column(name = "inventory_status")
     private String inventoryStatus;
     private int rating;
 
-    public Product(ProductRequestDTO productDto){
+    public Product(ProductRequestDTO productDto, Category category){
         this.name = productDto.getName();
         this.description = productDto.getDescription();
         this.image = productDto.getImage();
         this.price = productDto.getPrice();
-        this.category = productDto.getCategory();
+        this.category = category;
         this.quantity = productDto.getQuantity();
         this.inventoryStatus = productDto.getInventoryStatus();
         this.rating = productDto.getRating();
