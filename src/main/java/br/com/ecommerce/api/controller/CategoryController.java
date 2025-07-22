@@ -1,8 +1,8 @@
 package br.com.ecommerce.api.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,10 +32,10 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories(){
-        List<CategoryResponseDTO> categoryResponse = categoryService.getAllCategories()
-        .stream().map(CategoryResponseDTO::new).toList();
-        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
+    public ResponseEntity<Page<CategoryResponseDTO>> getAllCategories(Pageable pageable){
+        Page<CategoryResponseDTO> categoryPage = categoryService.getAllCategories(pageable)
+        .map(CategoryResponseDTO::new);
+        return new ResponseEntity<>(categoryPage, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
