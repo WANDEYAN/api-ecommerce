@@ -5,8 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-
 import br.com.ecommerce.api.service.exceptions.CategoryAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.CategoryNotFoundException;
 import br.com.ecommerce.api.service.exceptions.EmailAlreadyExistsException;

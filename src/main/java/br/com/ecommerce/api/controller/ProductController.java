@@ -25,14 +25,14 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/add/new")
+    @PostMapping
     public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductRequestDTO data){
         ProductResponseDTO product = new ProductResponseDTO(productService.createProduct(data));
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts(){
         List<ProductResponseDTO> productResponse = productService.getAllProducts()
         .stream().map(ProductResponseDTO::new).toList();
@@ -46,14 +46,14 @@ public class ProductController {
         return new ResponseEntity<>(responseProduct, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequestDTO data){
         ProductResponseDTO productResponse = new ProductResponseDTO(productService.updateProduct(id, data));
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id){
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

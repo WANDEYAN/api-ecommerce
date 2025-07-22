@@ -24,9 +24,7 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     public Product createProduct(ProductRequestDTO data) {
-        productRepository.findByName(data.getName()).ifPresent(product -> {
-            throw new ProductAlreadyExistsException("Product name already registered");
-        });
+        checkAlreadyExistsByName(data.getName());
         Category category = categoryRepository.findById(data.getCategoryId())
         .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
         Product product = new Product(data, category);
@@ -43,6 +41,7 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, ProductRequestDTO data){
+        checkAlreadyExistsByName(data.getName());
         Product oldProduct = getProductById(id);
         Category category = categoryRepository.findById(data.getCategoryId())
         .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
@@ -57,5 +56,9 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-
+    private void checkAlreadyExistsByName(String name){
+        productRepository.findByName(name).ifPresent(product -> {
+            throw new ProductAlreadyExistsException("Product name already registered");
+        });
+    }
 }

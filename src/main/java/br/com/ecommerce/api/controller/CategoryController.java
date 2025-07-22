@@ -25,13 +25,13 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO data){
         CategoryResponseDTO category = new CategoryResponseDTO(categoryService.createCategory(data));
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> getAllCategories(){
         List<CategoryResponseDTO> categoryResponse = categoryService.getAllCategories()
         .stream().map(CategoryResponseDTO::new).toList();
