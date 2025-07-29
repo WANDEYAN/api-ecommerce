@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import br.com.ecommerce.api.service.exceptions.CategoryAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.CategoryNotFoundException;
 import br.com.ecommerce.api.service.exceptions.EmailAlreadyExistsException;
+import br.com.ecommerce.api.service.exceptions.InsufficientStockException;
 import br.com.ecommerce.api.service.exceptions.ProductAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.ProductNotFoundException;
 
@@ -34,7 +35,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<String> handleCategoryNotFoundException(CategoryNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<String> handleInsufficientStockException(InsufficientStockException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
