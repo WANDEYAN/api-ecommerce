@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -13,7 +14,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import br.com.ecommerce.api.model.User;
 import br.com.ecommerce.api.repository.UserRepository;
 import br.com.ecommerce.api.service.exceptions.UserNotFoundException;
 
@@ -34,10 +34,10 @@ public class SecurityFilter extends OncePerRequestFilter{
         if(token != null && !token.isEmpty()){
             String emailUser;
             emailUser = tokenService.validateToken(token);
-            User user = userRepository.findByEmail(emailUser)
+            UserDetails user = userRepository.findByEmail(emailUser)
             .orElseThrow(() -> new UserNotFoundException("User authenticated not found"));
-            var emailPassword = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(emailPassword);
+            var authenticatedUser = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
         }
             filterChain.doFilter(request, response);
     }

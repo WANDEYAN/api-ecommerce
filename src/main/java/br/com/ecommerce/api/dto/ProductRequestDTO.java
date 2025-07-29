@@ -1,5 +1,6 @@
 package br.com.ecommerce.api.dto;
 
+import br.com.ecommerce.api.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,14 @@ public class ProductRequestDTO {
     private String inventoryStatus;
     private int rating;
 
-
+    public ProductRequestDTO(Product product){
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.image = product.getImage();
+        this.price = product.getPrice();
+        this.categoryId = product.getCategory().getId();
+        this.quantity = product.getQuantity();
+        this.inventoryStatus = product.getInventoryStatus();
+        this.rating = product.getRating();
+    }
 }

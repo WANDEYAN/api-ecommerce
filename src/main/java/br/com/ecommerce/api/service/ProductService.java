@@ -1,7 +1,8 @@
 package br.com.ecommerce.api.service;
 
-import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,10 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     public Product createProduct(ProductRequestDTO data) {
-        checkAlreadyExistsByName(data.getName());
-        Category category = categoryRepository.findById(data.getCategoryId())
-        .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-        Product product = new Product(data, category);
-        return productRepository.save(product);
+            Category category = categoryRepository.findById(data.getCategoryId())
+            .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+            Product product = new Product(data, category);
+            return persistData(product);
     }
 
     public Page<Product> getAllProducts(Pageable pageable) {
@@ -41,24 +41,29 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, ProductRequestDTO data){
-        checkAlreadyExistsByName(data.getName());
-        Product oldProduct = getProductById(id);
-        Category category = categoryRepository.findById(data.getCategoryId())
-        .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-        Product productUpdate = new Product(data, category);  
-        productUpdate.setId(oldProduct.getId());
-        productUpdate.setCode(oldProduct.getCode());
-        productUpdate.setRating(oldProduct.getRating());
-        return productRepository.save(productUpdate);
+            Product oldProduct = getProductById(id);
+            Category category = categoryRepository.findById(data.getCategoryId())
+            .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+            Product productUpdate = new Product(data, category);  
+            productUpdate.setId(oldProduct.getId());
+            productUpdate.setCode(oldProduct.getCode());
+            productUpdate.setRating(oldProduct.getRating());
+            return persistData(productUpdate);
+    }
+
+    public Product updateProduct(Long id, Product product){
+        return updateProduct(id, new ProductRequestDTO(product));
     }
 
     public void deleteProduct(Long id){
         productRepository.deleteById(id);
     }
 
-    private void checkAlreadyExistsByName(String name){
-        productRepository.findByName(name).ifPresent(product -> {
-            throw new ProductAlreadyExistsException("Product name already registered");
-        });
+    private Product persistData(Product data){
+        try{
+            return productRepository.save(data);
+        }catch(DataIntegrityViolationException  ex){
+            throw new ProductAlreadyExistsException("Product already registered");
+        }
     }
 }
