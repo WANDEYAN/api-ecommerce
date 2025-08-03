@@ -1,0 +1,15 @@
+| Entidade Relacionada | URL do Endpoint | Comando `curl` de Exemplo |
+| :------------------- | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Authentication**   | `/auth/login`   | `curl -X POST -H "Content-Type: application/json" -d '{"email": "pedro.santos@example.com", "password": "novaSenhaSegura"}' http://localhost:8080/auth/login` |
+| **Category**         | `/categories` (POST) | `curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" -d '{"name": "Livros"}' http://localhost:8080/categories` |
+| **Category**         | `/categories` (GET) | `curl -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" http://localhost:8080/categories` |
+| **Category**         | `/categories/{id}` (GET) | `curl -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" http://localhost:8080/categories/1` |
+| **Category**         | `/categories/{id}` (PUT) | `curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" -d '{"name": "Material Escolar"}' http://localhost:8080/categories/1` |
+| **Category**         | `/categories/{id}` (DELETE) | `curl -X DELETE -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" http://localhost:8080/categories/1` |
+| **Order**            | `/orders` (POST) | `curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" -d '{"items": [{"productId": 1, "quantity": 1}, {"productId": 2, "quantity": 3}]}' http://localhost:8080/orders` |
+| **Product**          | `/products` (POST) | `curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" -d '{"name": "Livro Mecânico de avião = Dev JAVA?", "description": "Finge que é uma bela descrição", "price": 450.00, "qantity": 25,"rating":0,"categoryId": 1}' http://localhost:8080/products` |
+| **Product**          | `/products` (GET) | `curl -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" http://localhost:8080/products` |
+| **Product**          | `/products/{id}` (GET) | `curl -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" http://localhost:8080/products/1` |
+| **Product**          | `/products/{id}` (PUT) | `curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" -d '{"name": "Livro Mecânico de avião = Dev JAVA?", "description": "Finge que é uma bela descrição","price": 450.00, "quantity": 25,"inventoryStatus":"INSTOCK", "categoryId": 1}' http://localhost:8080/products/1` |
+| **Product**          | `/products/{id}` (DELETE) | `curl -X DELETE -H "Authorization: Bearer SEU_TOKEN_JWT_AQUI" http://localhost:8080/products/1` |
+| **User**             | `/users/register` (POST) | `curl -X POST -H "Content-Type: application/json" -d '{"name": "Pedro Santos", "email": "pedro.santos@example.com", "password": "novaSenhaSegura"}' http://localhost:8080/users/register` |
