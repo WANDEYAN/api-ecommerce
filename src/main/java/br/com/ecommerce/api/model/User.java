@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.ecommerce.api.model.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,10 +36,16 @@ public class User implements UserDetails{
     @Column(unique = true)
     private String email;
     private String password;
+    private UserRole role;
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of( new SimpleGrantedAuthority("DEFAULT"));
+        String prefixSpringSecurity = "ROLE_";
+        if(this.role == UserRole.ADMIN){
+            return List.of(new SimpleGrantedAuthority(prefixSpringSecurity+UserRole.ADMIN.name()), new SimpleGrantedAuthority(prefixSpringSecurity+UserRole.USER.name()));
+        }else{
+            return List.of( new SimpleGrantedAuthority(prefixSpringSecurity+UserRole.USER.name()));
+        }
     }
     @Override
     public String getUsername() {
