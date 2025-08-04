@@ -1,9 +1,13 @@
 package br.com.ecommerce.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +30,18 @@ public class OrderController{
     public ResponseEntity<OrderResponseDTO> createOrder(@RequestBody @Valid OrderRequestDTO data, @AuthenticationPrincipal User authenticatedUser){
         OrderResponseDTO responseOrder = new OrderResponseDTO(orderService.createOrder(data, authenticatedUser));
         return new ResponseEntity<>(responseOrder, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<OrderResponseDTO>> getAllOrders(Pageable pageable) {
+        Page<OrderResponseDTO> ordersResponse = orderService.getAllOrders(pageable).map(OrderResponseDTO::new);
+        return new ResponseEntity<>(ordersResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/my-orders")
+    public ResponseEntity<Page<OrderResponseDTO>> getOrdersByUser(@AuthenticationPrincipal User authenticatedUser, Pageable pageable) {
+        Page<OrderResponseDTO> orderResponse = orderService.getOrdersByUser(authenticatedUser, pageable).map(OrderResponseDTO::new);
+        return new ResponseEntity<>(orderResponse, HttpStatus.OK);
     }
 }

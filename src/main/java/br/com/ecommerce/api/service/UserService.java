@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.ecommerce.api.dto.UserRegisterDTO;
 import br.com.ecommerce.api.model.User;
+import br.com.ecommerce.api.model.enums.UserRole;
 import br.com.ecommerce.api.repository.UserRepository;
 import br.com.ecommerce.api.service.exceptions.EmailAlreadyExistsException;
 
@@ -31,6 +32,7 @@ public class UserService implements UserDetailsService {
         newUser.setName(registerDTO.getName());
         newUser.setEmail(registerDTO.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        newUser.setRole(UserRole.USER);
         return userRepository.save(newUser);
     }
 
