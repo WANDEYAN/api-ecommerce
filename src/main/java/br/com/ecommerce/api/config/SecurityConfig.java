@@ -42,7 +42,11 @@ public class SecurityConfig {
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
-            auth -> auth.requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+            auth -> auth.requestMatchers(
+        "/swagger-ui.html",
+                    "/swagger-ui/**",     
+                    "/v3/api-docs/**").permitAll()
+        .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
         .anyRequest().authenticated()
         );

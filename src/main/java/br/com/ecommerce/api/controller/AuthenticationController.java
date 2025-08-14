@@ -13,6 +13,8 @@ import br.com.ecommerce.api.dto.LoginRequestDTO;
 import br.com.ecommerce.api.dto.LoginResponseDTO;
 import br.com.ecommerce.api.model.User;
 import br.com.ecommerce.api.security.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,6 +26,8 @@ public class AuthenticationController {
     private TokenService tokenService;
 
 
+    @Operation(summary = "authenticates client/user to validate requests")
+    @ApiResponse(responseCode = "200")
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data){
         var emailPassword = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());

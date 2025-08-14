@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 @RestController("/")
 @SpringBootApplication
 public class ApiApplication {
@@ -13,6 +15,7 @@ public class ApiApplication {
 		SpringApplication.run(ApiApplication.class, args);
 	}
 
+	@Hidden
 	@GetMapping("/hello")
 	public String hello() {
 		return "Hello, World!";
