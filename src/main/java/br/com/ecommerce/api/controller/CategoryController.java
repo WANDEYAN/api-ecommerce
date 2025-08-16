@@ -34,7 +34,7 @@ public class CategoryController {
         @ApiResponse(responseCode = "201", description = "Created successfully"),
         @ApiResponse(responseCode = "409", description = "Conflit: Category already exist")
     })
-    @SecurityRequirement(name = "bearerAuthea")
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO data){
         CategoryResponseDTO category = new CategoryResponseDTO(categoryService.createCategory(data));
@@ -68,7 +68,7 @@ public class CategoryController {
         @ApiResponse(responseCode = "200", description = "Update successfully"),
         @ApiResponse(responseCode = "409", description = "Conflit: resource already exist")
     })
-    @SecurityRequirement(name = "bearerAuthea")
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryRequestDTO data){
         CategoryResponseDTO categoryResponse = new CategoryResponseDTO(categoryService.updateCategory(id, data));
@@ -77,7 +77,7 @@ public class CategoryController {
 
     @Operation(summary = "Delete one category")
     @ApiResponse(responseCode = "204", description = "Delete successfully")
-    @SecurityRequirement(name = "bearerAuthea")
+    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable("id") Long id){
         categoryService.deleteCategory(id);
