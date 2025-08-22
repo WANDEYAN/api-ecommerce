@@ -66,4 +66,10 @@ public class ProductService {
             throw new ProductAlreadyExistsException("Product already registered");
         }
     }
+
+    public void updateProductImage(Long id, String imageUrl){
+        Product product = getProductById(id);
+        product.setImage(imageUrl);
+        productRepository.save(product);
+    }
 }
