@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.ecommerce.api.dto.ProductRequestDTO;
 import br.com.ecommerce.api.dto.ProductResponseDTO;
+import br.com.ecommerce.api.service.FileStorageService;
 import br.com.ecommerce.api.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -28,6 +33,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
     @Operation(summary = "Create a product")
     @ApiResponses(value = {
@@ -87,6 +95,14 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
+    @Operation(summary = "Upload a product image")
+    @ApiResponse(responseCode = "200", description = "Image uploaded successfully")
+    @SecurityRequirement(name = "bearerAuth")
+    @PostMapping("/uploads/{id}/image")
+    public ResponseEntity<?> uploadProductImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile file){
+        String imageUrl = fileStorageService.uploadFile(file);
+        productService.updateProductImage(id, imageUrl);
+        return ResponseEntity.ok().build();
+    }
 
 }

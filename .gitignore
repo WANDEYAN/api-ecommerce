@@ -57,3 +57,6 @@ buildNumber.properties
 
 # Outros
 *.swp
+
+#Uploaded
+/uploads/
