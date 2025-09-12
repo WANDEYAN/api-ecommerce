@@ -1,5 +1,8 @@
 package br.com.ecommerce.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.ecommerce.api.dto.ProductRequestDTO;
 import br.com.ecommerce.api.model.Category;
 import br.com.ecommerce.api.model.Product;
+import br.com.ecommerce.api.model.ProductImage;
 import br.com.ecommerce.api.repository.CategoryRepository;
 import br.com.ecommerce.api.repository.ProductRepository;
 import br.com.ecommerce.api.service.exceptions.CategoryNotFoundException;
@@ -67,9 +71,16 @@ public class ProductService {
         }
     }
 
-    public void updateProductImage(Long id, String imageUrl){
-        Product product = getProductById(id);
-        product.setImage(imageUrl);
+    public void updateProductImage(Long productId, List<String> imageUrl){
+        Product product = getProductById(productId);
+        List<ProductImage> productImages = new ArrayList<>();
+        for (String imageName : imageUrl) {
+            ProductImage p = new ProductImage();
+            p.setImageUrl(imageName);
+            p.setProduct(product);
+            productImages.add(p);
+        }
+        product.setImage(productImages);
         productRepository.save(product);
     }
 }

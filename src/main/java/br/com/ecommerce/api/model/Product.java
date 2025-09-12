@@ -1,6 +1,8 @@
 package br.com.ecommerce.api.model;
 
 
+import java.util.List;
+
 import br.com.ecommerce.api.dto.ProductRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -35,7 +38,10 @@ public class Product {
     @Column(unique = true)
     private String name;
     private String description;
-    private String image;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductImage> image;
+
     private double price;
 
     @ManyToOne

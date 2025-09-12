@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import br.com.ecommerce.api.service.exceptions.CategoryAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.CategoryNotFoundException;
 import br.com.ecommerce.api.service.exceptions.EmailAlreadyExistsException;
+import br.com.ecommerce.api.service.exceptions.IllegalFileExtensionException;
 import br.com.ecommerce.api.service.exceptions.InsufficientStockException;
+import br.com.ecommerce.api.service.exceptions.MaxUploadFileException;
 import br.com.ecommerce.api.service.exceptions.ProductAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.ProductNotFoundException;
 
@@ -42,6 +44,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InsufficientStockException.class)
     public ResponseEntity<String> handleInsufficientStockException(InsufficientStockException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalFileExtensionException.class)
+    public ResponseEntity<String> handlerIllegalFileExtensionException(IllegalFileExtensionException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MaxUploadFileException.class)
+    public ResponseEntity<String> handlerMaxUploadFileException(MaxUploadFileException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
