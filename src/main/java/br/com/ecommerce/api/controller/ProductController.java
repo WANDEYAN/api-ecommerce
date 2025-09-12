@@ -1,5 +1,7 @@
 package br.com.ecommerce.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +23,6 @@ import br.com.ecommerce.api.dto.ProductResponseDTO;
 import br.com.ecommerce.api.service.FileStorageService;
 import br.com.ecommerce.api.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -98,10 +98,10 @@ public class ProductController {
     @Operation(summary = "Upload a product image")
     @ApiResponse(responseCode = "200", description = "Image uploaded successfully")
     @SecurityRequirement(name = "bearerAuth")
-    @PostMapping("/uploads/{id}/image")
-    public ResponseEntity<?> uploadProductImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile file){
-        String imageUrl = fileStorageService.uploadFile(file);
-        productService.updateProductImage(id, imageUrl);
+    @PostMapping("/uploads/{id}/images")
+    public ResponseEntity<?> uploadProductImage(@PathVariable("id") Long productId, @RequestParam("images") MultipartFile[] file){
+        List<String> imageUrl = fileStorageService.ImageUploadFile(file);
+        productService.updateProductImage(productId, imageUrl);
         return ResponseEntity.ok().build();
     }
 

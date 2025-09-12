@@ -1,6 +1,9 @@
 package br.com.ecommerce.api.dto;
 
+import java.util.List;
+
 import br.com.ecommerce.api.model.Product;
+import br.com.ecommerce.api.model.ProductImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +17,7 @@ public class ProductRequestDTO {
 
     private String name;
     private String description;
-    private String image;
+    private List<ProductImage> image;
     private double price;
     private Long categoryId;
     private int quantity;
