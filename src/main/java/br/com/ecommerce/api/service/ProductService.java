@@ -52,6 +52,7 @@ public class ProductService {
             productUpdate.setId(oldProduct.getId());
             productUpdate.setCode(oldProduct.getCode());
             productUpdate.setRating(oldProduct.getRating());
+            productUpdate.setImage(oldProduct.getImage());
             return persistData(productUpdate);
     }
 
