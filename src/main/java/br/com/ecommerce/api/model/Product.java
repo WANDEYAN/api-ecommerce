@@ -4,6 +4,7 @@ package br.com.ecommerce.api.model;
 import java.util.List;
 
 import br.com.ecommerce.api.dto.ProductRequestDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class Product {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> image;
 
     private double price;
@@ -57,7 +58,6 @@ public class Product {
     public Product(ProductRequestDTO productDto, Category category){
         this.name = productDto.getName();
         this.description = productDto.getDescription();
-        this.image = productDto.getImage();
         this.price = productDto.getPrice();
         this.category = category;
         this.quantity = productDto.getQuantity();
