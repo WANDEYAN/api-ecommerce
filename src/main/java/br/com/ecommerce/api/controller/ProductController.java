@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.ecommerce.api.dto.ProductMapper;
 import br.com.ecommerce.api.dto.ProductRequestDTO;
 import br.com.ecommerce.api.dto.ProductResponseDTO;
+import br.com.ecommerce.api.model.Product;
 import br.com.ecommerce.api.service.FileStorageService;
 import br.com.ecommerce.api.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +39,9 @@ public class ProductController {
     @Autowired
     private FileStorageService fileStorageService;
 
+    @Autowired
+    private ProductMapper productMapper;
+
     @Operation(summary = "Create a product")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "created successfully"),
@@ -45,8 +50,9 @@ public class ProductController {
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductRequestDTO data){
-        ProductResponseDTO product = new ProductResponseDTO(productService.createProduct(data));
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+        Product product = productService.createProduct(data);
+        ProductResponseDTO productResponseDTO = productMapper.toResponseDTO(product);
+        return new ResponseEntity<>(productResponseDTO, HttpStatus.CREATED);
     }
 
 
@@ -55,8 +61,9 @@ public class ProductController {
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping
     public ResponseEntity<Page<ProductResponseDTO>> getAllProducts(Pageable pageable){
-        Page<ProductResponseDTO> productPage = productService.getAllProducts(pageable).map(ProductResponseDTO::new);
-        return new ResponseEntity<>(productPage, HttpStatus.OK);
+        Page<Product> productPage = productService.getAllProducts(pageable);
+        Page<ProductResponseDTO> responsePageDTO = productMapper.toResponsePageDTO(productPage);
+        return new ResponseEntity<>(responsePageDTO, HttpStatus.OK);
     
     }
 
@@ -68,8 +75,9 @@ public class ProductController {
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") Long id){
-        ProductResponseDTO responseProduct = new ProductResponseDTO(productService.getProductById(id));
-        return new ResponseEntity<>(responseProduct, HttpStatus.OK);
+        Product product = productService.getProductById(id);
+        ProductResponseDTO productResponseDTO = productMapper.toResponseDTO(product);
+        return new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
     }
 
     @Operation(summary = "Update a product data")
@@ -81,8 +89,9 @@ public class ProductController {
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequestDTO data){
-        ProductResponseDTO productResponse = new ProductResponseDTO(productService.updateProduct(id, data));
-        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+        Product product = productService.updateProduct(id, data);
+        ProductResponseDTO productResponseDTO = productMapper.toResponseDTO(product);
+        return new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
 
     }
 
