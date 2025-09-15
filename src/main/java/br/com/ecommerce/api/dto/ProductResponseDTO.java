@@ -1,5 +1,6 @@
 package br.com.ecommerce.api.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.ecommerce.api.model.Category;
@@ -28,7 +29,7 @@ public class ProductResponseDTO {
         this.code = product.getCode();
         this.name = product.getName();
         this.description = product.getDescription();
-        this.image = product.getImage().stream().map(ProductImageResponseDTO::new).toList();
+        this.image = new ArrayList<>();
         this.price = product.getPrice();
         this.category = product.getCategory();
         this.quantity = product.getQuantity();

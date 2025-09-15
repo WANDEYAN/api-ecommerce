@@ -8,8 +8,10 @@ import lombok.Setter;
 @Setter
 public class ProductImageResponseDTO {
     private String imageUrl;
+    private String thumbnailUrl;
 
     public ProductImageResponseDTO(ProductImage productImage){
         this.imageUrl = productImage.getImageUrl();
+        this.thumbnailUrl = "";
     }
 }
