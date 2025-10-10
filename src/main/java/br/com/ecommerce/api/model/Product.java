@@ -62,7 +62,6 @@ public class Product {
         this.category = category;
         this.quantity = productDto.getQuantity();
         this.inventoryStatus = productDto.getInventoryStatus();
-        this.rating = productDto.getRating();
     }
 
 }

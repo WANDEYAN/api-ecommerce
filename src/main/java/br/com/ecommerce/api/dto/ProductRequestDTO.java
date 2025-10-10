@@ -1,9 +1,6 @@
 package br.com.ecommerce.api.dto;
 
-import java.util.List;
-
 import br.com.ecommerce.api.model.Product;
-import br.com.ecommerce.api.model.ProductImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,21 +14,17 @@ public class ProductRequestDTO {
 
     private String name;
     private String description;
-    private List<ProductImage> image;
     private double price;
     private Long categoryId;
     private int quantity;
     private String inventoryStatus;
-    private int rating;
 
     public ProductRequestDTO(Product product){
         this.name = product.getName();
         this.description = product.getDescription();
-        this.image = product.getImage();
         this.price = product.getPrice();
         this.categoryId = product.getCategory().getId();
         this.quantity = product.getQuantity();
         this.inventoryStatus = product.getInventoryStatus();
-        this.rating = product.getRating();
     }
 }
