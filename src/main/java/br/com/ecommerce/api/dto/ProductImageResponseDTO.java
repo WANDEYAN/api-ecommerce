@@ -1,6 +1,5 @@
 package br.com.ecommerce.api.dto;
 
-import br.com.ecommerce.api.model.ProductImage;
 import lombok.Getter;
 import lombok.Setter;
 
