@@ -109,7 +109,7 @@ public class ProductController {
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/uploads/{id}/images")
     public ResponseEntity<?> uploadProductImage(@PathVariable("id") Long productId, @RequestParam("images") MultipartFile[] file){
-        List<String> imageUrl = fileStorageService.ImageUploadFile(file);
+        List<String> imageUrl = fileStorageService.imageUploadFile(file);
         productService.updateProductImage(productId, imageUrl);
         return ResponseEntity.ok().build();
     }

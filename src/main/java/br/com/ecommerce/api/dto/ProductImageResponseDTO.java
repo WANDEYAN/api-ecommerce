@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class ProductImageResponseDTO {
     private String imageUrl;
-    private String thumbnailUrl;
 }
