@@ -13,6 +13,7 @@ import br.com.ecommerce.api.service.exceptions.InsufficientStockException;
 import br.com.ecommerce.api.service.exceptions.MaxUploadFileException;
 import br.com.ecommerce.api.service.exceptions.ProductAlreadyExistsException;
 import br.com.ecommerce.api.service.exceptions.ProductNotFoundException;
+import br.com.ecommerce.api.service.exceptions.UploadImageException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -54,6 +55,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MaxUploadFileException.class)
     public ResponseEntity<String> handlerMaxUploadFileException(MaxUploadFileException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UploadImageException.class)
+    public ResponseEntity<String> handlerUploadImageException(UploadImageException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
